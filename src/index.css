@@ -1,0 +1,114 @@
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 300; font-style: normal; font-display: swap; src: url('../node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-300-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 300; font-style: italic; font-display: swap; src: url('../node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-300-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 400; font-style: normal; font-display: swap; src: url('../node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 400; font-style: italic; font-display: swap; src: url('../node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-italic.woff2') format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 500; font-style: normal; font-display: swap; src: url('../node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Jost'; font-weight: 300; font-style: normal; font-display: swap; src: url('../node_modules/@fontsource/jost/files/jost-latin-300-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Jost'; font-weight: 400; font-style: normal; font-display: swap; src: url('../node_modules/@fontsource/jost/files/jost-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Jost'; font-weight: 500; font-style: normal; font-display: swap; src: url('../node_modules/@fontsource/jost/files/jost-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Pinyon Script'; font-weight: 400; font-style: normal; font-display: swap; src: url('../node_modules/@fontsource/pinyon-script/files/pinyon-script-latin-400-normal.woff2') format('woff2'); }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --porcelain: #FBF8F4;
+  --ivory: #F5EEE6;
+  --sand: #E6DACC;
+  --mink: #AE9E8F;
+  --taupe: #8B7B6D;
+  --cocoa: #4B3C33;
+  --espresso: #221A15;
+  --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html { -webkit-text-size-adjust: 100%; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+html, body { overflow-x: clip; }
+body {
+  @apply bg-porcelain text-cocoa font-sans font-light antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection { background: var(--mink); color: var(--ivory); }
+
+:focus-visible { outline: 1.5px solid #9C7A5C; outline-offset: 4px; }
+
+.skip-link { position: fixed !important; left: 1rem; top: -5rem; z-index: 100; transition: top .3s; }
+.skip-link:focus { top: 1rem; }
+
+/* Film grain — adds tactile, printed-paper depth over flat colour */
+.grain::after {
+  content: '';
+  position: absolute; inset: -50%;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: .16;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+@layer components {
+.eyebrow { @apply font-sans text-[0.68rem] uppercase tracking-wide2 font-normal; }
+.display { @apply font-display font-light leading-[0.92] tracking-[-0.01em]; }
+
+/* Buttons */
+.btn {
+  @apply relative inline-flex items-center justify-center gap-3 overflow-hidden px-7 py-4 font-sans text-[0.7rem] uppercase tracking-wide2 font-normal;
+  transition: color .6s var(--ease-lux), border-color .6s var(--ease-lux);
+  isolation: isolate;
+}
+.btn::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  transform: translateY(101%);
+  transition: transform .6s var(--ease-lux);
+}
+.btn:hover::before, .btn:focus-visible::before { transform: translateY(0); }
+.btn-solid { @apply bg-espresso text-ivory; }
+.btn-solid::before { background: var(--bronze, #9C7A5C); }
+.btn-light { @apply bg-ivory text-espresso; }
+.btn-light::before { background: var(--espresso); }
+.btn-light:hover, .btn-light:focus-visible { @apply text-ivory; }
+.btn-line { @apply border border-current; }
+.btn-line::before { background: currentColor; }
+.btn-line:hover > span, .btn-line:focus-visible > span { color: var(--espresso); }
+.btn-line.on-light:hover > span, .btn-line.on-light:focus-visible > span { color: var(--ivory); }
+.btn > span { position: relative; z-index: 1; transition: color .6s var(--ease-lux); }
+
+.link-u { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .5s var(--ease-lux); }
+.link-u:hover, .link-u:focus-visible { background-size: 100% 1px; }
+
+}
+
+/* Split text helpers */
+.line-mask { display: block; overflow: hidden; padding-bottom: 0.16em; margin-bottom: -0.16em; }
+.line-inner { display: block; will-change: transform; }
+
+/* Gallery horizontal snap (mobile testimonials etc.) */
+.snap-row { scroll-snap-type: x mandatory; scrollbar-width: none; }
+.snap-row::-webkit-scrollbar { display: none; }
+.snap-row > * { scroll-snap-align: start; }
+
+/* Line-art draw */
+.draw path, .draw circle, .draw ellipse, .draw line { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.draw.is-drawn path, .draw.is-drawn circle, .draw.is-drawn ellipse, .draw.is-drawn line { stroke-dashoffset: 0; transition: stroke-dashoffset 2.6s var(--ease-lux); }
+
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee { animation: marquee 38s linear infinite; }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 40s linear infinite; }
+@keyframes floaty { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-10px) } }
+.floaty { animation: floaty 7s ease-in-out infinite; }
+
+@media (hover: hover) and (pointer: fine) {
+  .has-cursor, .has-cursor a, .has-cursor button, .has-cursor [role='button'] { cursor: none; }
+  .has-cursor input, .has-cursor textarea, .has-cursor select { cursor: text; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  .draw path, .draw circle, .draw ellipse, .draw line { stroke-dashoffset: 0; }
+}
